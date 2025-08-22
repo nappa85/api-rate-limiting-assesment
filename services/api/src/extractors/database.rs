@@ -1,4 +1,4 @@
-use crate::lib::AppState;
+use crate::AppState;
 use axum::{
     async_trait,
     extract::{FromRef, FromRequestParts},
@@ -23,7 +23,7 @@ where
             .get_owned()
             .await
             .map_err(|_| StatusCode::SERVICE_UNAVAILABLE)?;
-        
+
         Ok(DatabaseConnection(conn))
     }
 }
@@ -45,7 +45,7 @@ where
             .get_owned()
             .await
             .map_err(|_| StatusCode::SERVICE_UNAVAILABLE)?;
-        
+
         Ok(ReadOnlyDatabaseConnection(conn))
     }
 }

@@ -6,7 +6,7 @@ default:
 
 # Start infrastructure (PostgreSQL + Redis)
 up:
-    docker-compose up -d
+    podman-compose up -d
 
 # Run database migrations
 migrate:
@@ -14,7 +14,7 @@ migrate:
 
 # Stop infrastructure
 down:
-    docker-compose down
+    podman-compose down
 
 # === Running the API ===
 
@@ -35,7 +35,7 @@ run-dev:
 test-setup:
     @echo "🔧 Setting up complete test environment..."
     @echo "Starting infrastructure (PostgreSQL + Redis)..."
-    docker-compose up -d postgres redis
+    podman-compose up -d postgres redis
     @echo "Waiting for services to be ready..."
     @sleep 5
     @echo "Running database migrations..."

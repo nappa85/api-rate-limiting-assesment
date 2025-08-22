@@ -89,7 +89,8 @@ async fn test_malformed_json_edge_cases() {
 
         // Should return 400 Bad Request or 422 Unprocessable Entity for malformed JSON
         assert!(
-            response.status() == StatusCode::BAD_REQUEST || response.status() == StatusCode::UNPROCESSABLE_ENTITY,
+            response.status() == StatusCode::BAD_REQUEST
+                || response.status() == StatusCode::UNPROCESSABLE_ENTITY,
             "Malformed JSON '{}' should return 400 Bad Request or 422 Unprocessable Entity, got {}",
             test_name,
             response.status()
@@ -265,7 +266,11 @@ async fn test_duplicate_concurrent_requests() {
                     transaction_ids.insert(tx_id.to_string());
                 }
                 StatusCode::TOO_MANY_REQUESTS => rate_limits += 1,
-                _ => errors += 1,
+                _ => {
+                    let body = response.text().await.expect("Failed to retrieve body");
+                    println!("ERROR: {body}");
+                    errors += 1
+                }
             },
             Err(_) => errors += 1,
         }

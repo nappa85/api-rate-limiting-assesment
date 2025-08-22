@@ -67,7 +67,7 @@ async fn test_exact_rate_limit_enforcement() {
     TestEnvironment::validate_test_environment().await;
 
     let client = TestClient::new();
-    let account_id = TestData::unique_account_id();
+    let account_id = TestData::premium_tier_account_id(); // fixed test, backend needs to know we're premium
     let transaction_data = TestData::sample_transaction_data();
 
     // Submit exactly 100 transactions (default premium tier limit)
@@ -103,7 +103,7 @@ async fn test_per_account_rate_limiting() {
     TestEnvironment::validate_test_environment().await;
 
     let client = TestClient::new();
-    let account1 = TestData::unique_account_id();
+    let account1 = TestData::premium_tier_account_id(); // fixed test, backend needs to know we're premium
     let account2 = TestData::unique_account_id();
     let transaction_data = TestData::sample_transaction_data();
 
@@ -283,8 +283,11 @@ async fn test_concurrent_rate_limiting() {
             _ => panic!("Unexpected status: {}", status),
         }
     }
-    
-    println!("Concurrent test results: {} successful, {} rate limited", success_count, rate_limited_count);
+
+    println!(
+        "Concurrent test results: {} successful, {} rate limited",
+        success_count, rate_limited_count
+    );
 
     // Should have some successful and some rate limited
     assert!(success_count > 0, "Should have some successful requests");
@@ -310,7 +313,7 @@ async fn test_rate_limiting_with_priority() {
     TestEnvironment::validate_test_environment().await;
 
     let client = TestClient::new();
-    let account_id = TestData::unique_account_id();
+    let account_id = TestData::premium_tier_account_id(); // fixed test, backend needs to know we're premium
     let transaction_data = TestData::sample_transaction_data();
 
     // Exhaust rate limit with high priority transactions (premium tier: 100 per minute)

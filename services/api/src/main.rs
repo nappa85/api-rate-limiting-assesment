@@ -1,5 +1,5 @@
 use anyhow::Result;
-use axum::{Router, Json};
+use axum::{Json, Router};
 use dotenvy::dotenv;
 use serde_json::json;
 use std::net::SocketAddr;
@@ -8,14 +8,7 @@ use tower_http::cors::CorsLayer;
 use tower_http::trace::{DefaultMakeSpan, DefaultOnResponse, TraceLayer};
 use tracing::{info, Level};
 
-pub mod config;
-mod errors;
-mod extractors;
-mod lib;
-mod v1;
-
-use crate::config::Config;
-use crate::lib::AppState;
+use transaction_queue_api::{config::Config, v1, AppState};
 
 #[tokio::main]
 async fn main() -> Result<()> {
